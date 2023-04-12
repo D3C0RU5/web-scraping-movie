@@ -28,7 +28,7 @@ def get_url_movies(list_movies: list[str]):
 
 
 def refresh_file_with_processed_images(content):
-    with open('data/movies.json', 'w') as json_file:
+    with open('data/procced-images.json', 'w') as json_file:
         json_file.write(content)
         json_file.close()
 
@@ -101,7 +101,7 @@ def start_scraping(args):
 
     movies = perform_requests(args, movies)
 
-    print(movies)
+    save_processed(movies)
 
 
 def divide_chunks(args, movies):
@@ -148,12 +148,13 @@ def perform_requests(args, movies):
             }
             results.append(movie)
 
-    print(results)
+    return results
 
-# movies_to_text = json.dumps(movies, ensure_ascii=False)
-# refresh_file_with_processed_images(movies_to_text)
 
-# logging.info(f"Scrapping completed.")
+def save_processed(movies):
+    movies_to_text = json.dumps(movies, ensure_ascii=False)
+    refresh_file_with_processed_images(movies_to_text)
+    logging.info(f"Scrapping completed.")
 
 
 if __name__ == '__main__':
